@@ -81,14 +81,16 @@ class OpenAiChat implements OpenAiChatInterface
      */
     protected function buildPromptRequest(OpenAiChatRequestTransfer $openAiRequestTransfer): array
     {
-        $modelKey = $openAiRequestTransfer->getModel() ?? $this->config->getDefaultOpenAiEngine();
+        $model = $openAiRequestTransfer->getModel() ?? $this->config->getDefaultOpenAiEngine();
+        $user = $openAiRequestTransfer->getUser() ?? static::OPENAI_MESSAGE_ROLE_USER_VALUE;
+        $content = $openAiRequestTransfer->getMessage() ?? $openAiRequestTransfer->getPromptData();
 
         return [
-            static::OPENAI_MESSAGE_MODEL_KEY => $modelKey,
+            static::OPENAI_MESSAGE_MODEL_KEY => $model,
             static::OPENAI_MESSAGE_MESSAGES_KEY => [
                 [
-                    static::OPENAI_MESSAGE_ROLE_KEY => static::OPENAI_MESSAGE_ROLE_USER_VALUE,
-                    static::OPENAI_MESSAGE_CONTENT_KEY => $openAiRequestTransfer->getMessage(),
+                    static::OPENAI_MESSAGE_ROLE_KEY => $user,
+                    static::OPENAI_MESSAGE_CONTENT_KEY => $content,
                 ],
             ],
         ];

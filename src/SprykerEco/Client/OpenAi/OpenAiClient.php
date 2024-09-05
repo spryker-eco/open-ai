@@ -31,6 +31,6 @@ class OpenAiClient extends AbstractClient implements OpenAiClientInterface
      */
     public function chat(OpenAiChatRequestTransfer $openAiRequestTransfer): OpenAiChatResponseTransfer
     {
-        return $this->getFactory()->createOpenAiChat()->chat($openAiRequestTransfer->getMessage());
+        return $this->getFactory()->createOpenAiChat()->chat($openAiRequestTransfer);
     }
 }

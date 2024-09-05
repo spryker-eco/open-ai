@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Client\OpenAi\Chat;
 
+use Generated\Shared\Transfer\OpenAiChatRequestTransfer;
 use Generated\Shared\Transfer\OpenAiChatResponseTransfer;
 use OpenAI\Client;
 use OpenAI\Responses\Chat\CreateResponse;
@@ -60,32 +61,34 @@ class OpenAiChat implements OpenAiChatInterface
     }
 
     /**
-     * @param string $message
+     * @param \Generated\Shared\Transfer\OpenAiChatRequestTransfer $openAiRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OpenAiChatResponseTransfer
      */
-    public function chat(string $message): OpenAiChatResponseTransfer
+    public function chat(OpenAiChatRequestTransfer $openAiRequestTransfer): OpenAiChatResponseTransfer
     {
         $createResponse = $this->openAiClient->chat()->create(
-            $this->buildPromptRequest($message),
+            $this->buildPromptRequest($openAiRequestTransfer),
         );
 
         return $this->buildOpenAiChatResponse($createResponse);
     }
 
     /**
-     * @param string $message
+     * @param \Generated\Shared\Transfer\OpenAiChatRequestTransfer $openAiRequestTransfer
      *
      * @return array<string, mixed>
      */
-    protected function buildPromptRequest(string $message): array
+    protected function buildPromptRequest(OpenAiChatRequestTransfer $openAiRequestTransfer): array
     {
+        $modelKey = $openAiRequestTransfer->getModel() ?? $this->config->getDefaultOpenAiEngine();
+
         return [
-            static::OPENAI_MESSAGE_MODEL_KEY => $this->config->getOpenAiEngine(),
+            static::OPENAI_MESSAGE_MODEL_KEY => $modelKey,
             static::OPENAI_MESSAGE_MESSAGES_KEY => [
                 [
                     static::OPENAI_MESSAGE_ROLE_KEY => static::OPENAI_MESSAGE_ROLE_USER_VALUE,
-                    static::OPENAI_MESSAGE_CONTENT_KEY => $message,
+                    static::OPENAI_MESSAGE_CONTENT_KEY => $openAiRequestTransfer->getMessage(),
                 ],
             ],
         ];

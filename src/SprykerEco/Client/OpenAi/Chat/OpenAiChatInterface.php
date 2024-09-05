@@ -7,14 +7,15 @@
 
 namespace SprykerEco\Client\OpenAi\Chat;
 
+use Generated\Shared\Transfer\OpenAiChatRequestTransfer;
 use Generated\Shared\Transfer\OpenAiChatResponseTransfer;
 
 interface OpenAiChatInterface
 {
     /**
-     * @param string $message
+     * @param \Generated\Shared\Transfer\OpenAiChatRequestTransfer $openAiRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OpenAiChatResponseTransfer
      */
-    public function chat(string $message): OpenAiChatResponseTransfer;
+    public function chat(OpenAiChatRequestTransfer $openAiRequestTransfer): OpenAiChatResponseTransfer;
 }

@@ -15,7 +15,7 @@ class OpenAiConfig extends AbstractBundleConfig
     /**
      * @var string
      */
-    protected const DEFAULT_OPENAI_ENGINE = 'gpt-4o-mini';
+    protected const DEFAULT_OPENAI_ENGINE = 'gpt-3.5-turbo';
 
     /**
      * @api

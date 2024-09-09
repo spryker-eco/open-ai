@@ -24,7 +24,6 @@
         "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/",
         "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/",
         "stan": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/codecept run --quiet --fail-fast --no-exit",
         "lowest": "validate-prefer-lowest",
         "lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json"
     },

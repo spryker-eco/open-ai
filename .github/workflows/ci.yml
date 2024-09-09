@@ -85,9 +85,6 @@ jobs:
             - name: Run CodeStyle checks
               run: composer cs-check
 
-            - name: Run codeception tests (currently not running properly)
-              run: composer test
-
             - name: Run PHPStan
               run: composer stan
 

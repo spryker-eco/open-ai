@@ -21,11 +21,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/",
-        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/",
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/",
         "stan": "phpstan analyse -c phpstan.neon -l 8 src/",
-        "lowest": "validate-prefer-lowest",
-        "lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json"
+        "stan-setup": "cp composer.json composer.backup && COMPOSER_MEMORY_LIMIT=-1 composer require --dev phpstan/phpstan:^0.12 && mv composer.backup composer.json"
     },
     "extra": {
         "branch-alias": {

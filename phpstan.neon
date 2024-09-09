@@ -1,6 +1,8 @@
 parameters:
     level: 8
+    paths:
+        - src/
     ignoreErrors:
-        - message: '#.*has invalid type Generated\\Shared\\Transfer\\.*#'
-        - message: '#.*on an unknown class Generated\\Shared\\Transfer\\.*#'
-        - message: '#.*has invalid return type Generated\\Shared\\Transfer\\.*#'
+        - '#Call to method .+ on an unknown class .+Transfer#'
+        - '#Parameter .+ of method .+ has invalid typehint type .+Transfer#'
+        - '#Return typehint of method .+ has invalid type .+Transfer#'

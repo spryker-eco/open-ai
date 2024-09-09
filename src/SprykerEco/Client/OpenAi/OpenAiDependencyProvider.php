@@ -11,6 +11,9 @@ use Spryker\Client\Kernel\AbstractDependencyProvider;
 use Spryker\Client\Kernel\Container;
 use SprykerEco\Client\OpenAi\Dependency\External\OpenAiToOpenAiPhpClientAdapter;
 
+/**
+ * @method \SprykerEco\Client\OpenAi\OpenAiConfig getConfig()
+ */
 class OpenAiDependencyProvider extends AbstractDependencyProvider
 {
     /**

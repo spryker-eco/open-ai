@@ -2,3 +2,5 @@ parameters:
     level: 8
     ignoreErrors:
         - message: '#.*has invalid type Generated\\Shared\\Transfer\\.*#'
+        - message: '#.*on an unknown class Generated\\Shared\\Transfer\\.*#'
+        - message: '#.*has invalid return type Generated\\Shared\\Transfer\\.*#'

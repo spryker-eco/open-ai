@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Shared\OpenAi;
@@ -13,6 +13,9 @@ namespace SprykerEco\Shared\OpenAi;
 interface OpenAiConstants
 {
     /**
+     * Specification:
+     * - Specifies the OpenAI API token.
+     *
      * @api
      *
      * @var string

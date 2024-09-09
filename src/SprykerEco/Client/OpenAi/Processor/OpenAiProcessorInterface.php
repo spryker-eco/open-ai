@@ -2,15 +2,15 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEco\Client\OpenAi\Chat;
+namespace SprykerEco\Client\OpenAi\Processor;
 
 use Generated\Shared\Transfer\OpenAiChatRequestTransfer;
 use Generated\Shared\Transfer\OpenAiChatResponseTransfer;
 
-interface OpenAiChatInterface
+interface OpenAiProcessorInterface
 {
     /**
      * @param \Generated\Shared\Transfer\OpenAiChatRequestTransfer $openAiRequestTransfer

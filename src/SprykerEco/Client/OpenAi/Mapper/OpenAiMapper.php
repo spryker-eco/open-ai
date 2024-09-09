@@ -2,16 +2,16 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEco\Client\OpenAi\Chat\Mapper;
+namespace SprykerEco\Client\OpenAi\Mapper;
 
 use Generated\Shared\Transfer\OpenAiChatRequestTransfer;
 use Generated\Shared\Transfer\OpenAiChatResponseTransfer;
 use SprykerEco\Client\OpenAi\OpenAiConfig;
 
-class ChatMapper implements ChatMapperInterface
+class OpenAiMapper implements OpenAiMapperInterface
 {
     /**
      * @var string
@@ -73,16 +73,12 @@ class ChatMapper implements ChatMapperInterface
      */
     public function mapRequestToPromptParameters(OpenAiChatRequestTransfer $openAiChatRequestTransfer): array
     {
-        $model = $openAiChatRequestTransfer->getModel() ?? $this->openAiConfig->getDefaultOpenAiEngine();
-        $user = $openAiChatRequestTransfer->getUser() ?? static::OPENAI_MESSAGE_ROLE_USER_VALUE;
-        $content = $openAiChatRequestTransfer->getMessage() ?? $openAiChatRequestTransfer->getPromptData();
-
         return [
-            static::OPENAI_MESSAGE_MODEL_KEY => $model,
+            static::OPENAI_MESSAGE_MODEL_KEY => $openAiChatRequestTransfer->getModel() ?? $this->openAiConfig->getDefaultOpenAiEngine(),
             static::OPENAI_MESSAGE_MESSAGES_KEY => [
                 [
-                    static::OPENAI_MESSAGE_ROLE_KEY => $user,
-                    static::OPENAI_MESSAGE_CONTENT_KEY => $content,
+                    static::OPENAI_MESSAGE_ROLE_KEY => $openAiChatRequestTransfer->getUser() ?? static::OPENAI_MESSAGE_ROLE_USER_VALUE,
+                    static::OPENAI_MESSAGE_CONTENT_KEY => $openAiChatRequestTransfer->getMessage() ?? $openAiChatRequestTransfer->getPromptData(),
                 ],
             ],
         ];
@@ -100,7 +96,7 @@ class ChatMapper implements ChatMapperInterface
             return $responseTransfer;
         }
 
-        $messageContent = $responseData[static::OPENAI_RESPONSE_KEY_CHOICES][0][static::OPENAI_RESPONSE_KEY_MESSAGE][static::OPENAI_RESPONSE_KEY_CONTENT];
+        $messageContent = $responseData[static::OPENAI_RESPONSE_KEY_CHOICES][0][static::OPENAI_RESPONSE_KEY_MESSAGE][static::OPENAI_RESPONSE_KEY_CONTENT] ?? null;
 
         return $responseTransfer->setMessage($messageContent);
     }

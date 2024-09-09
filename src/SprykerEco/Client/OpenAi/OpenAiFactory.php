@@ -2,18 +2,17 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Client\OpenAi;
 
-use OpenAI;
-use OpenAI\Client;
 use Spryker\Client\Kernel\AbstractFactory;
-use SprykerEco\Client\OpenAi\Chat\Mapper\ChatMapper;
-use SprykerEco\Client\OpenAi\Chat\Mapper\ChatMapperInterface;
-use SprykerEco\Client\OpenAi\Chat\OpenAiChat;
-use SprykerEco\Client\OpenAi\Chat\OpenAiChatInterface;
+use SprykerEco\Client\OpenAi\Dependency\External\OpenAiToOpenAiPhpClientInterface;
+use SprykerEco\Client\OpenAi\Mapper\OpenAiMapper;
+use SprykerEco\Client\OpenAi\Mapper\OpenAiMapperInterface;
+use SprykerEco\Client\OpenAi\Processor\OpenAiProcessor;
+use SprykerEco\Client\OpenAi\Processor\OpenAiProcessorInterface;
 
 /**
  * @method \SprykerEco\Client\OpenAi\OpenAiConfig getConfig()
@@ -21,28 +20,30 @@ use SprykerEco\Client\OpenAi\Chat\OpenAiChatInterface;
 class OpenAiFactory extends AbstractFactory
 {
     /**
-     * @return \SprykerEco\Client\OpenAi\Chat\OpenAiChatInterface
+     * @return \SprykerEco\Client\OpenAi\Processor\OpenAiProcessorInterface
      */
-    public function createOpenAiChat(): OpenAiChatInterface
+    public function createOpenAiProcessor(): OpenAiProcessorInterface
     {
-        return new OpenAiChat($this->createOpenAiClient(), $this->createChatMapper());
-    }
-
-    /**
-     * @return \SprykerEco\Client\OpenAi\Chat\Mapper\ChatMapperInterface
-     */
-    public function createChatMapper(): ChatMapperInterface
-    {
-        return new ChatMapper($this->getConfig());
-    }
-
-    /**
-     * @return \OpenAI\Client
-     */
-    public function createOpenAiClient(): Client
-    {
-        return OpenAi::client(
-            $this->getConfig()->getOpenAiApiToken(),
+        return new OpenAiProcessor(
+            $this->getConfig(),
+            $this->createOpenAiMapper(),
+            $this->getOpenAiPhpClient(),
         );
+    }
+
+    /**
+     * @return \SprykerEco\Client\OpenAi\Mapper\OpenAiMapperInterface
+     */
+    public function createOpenAiMapper(): OpenAiMapperInterface
+    {
+        return new OpenAiMapper($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerEco\Client\OpenAi\Dependency\External\OpenAiToOpenAiPhpClientInterface
+     */
+    public function getOpenAiPhpClient(): OpenAiToOpenAiPhpClientInterface
+    {
+        return $this->getProvidedDependency(OpenAiDependencyProvider::CLIENT_OPEN_AI_PHP);
     }
 }

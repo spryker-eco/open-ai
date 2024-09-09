@@ -29,100 +29,100 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ['8.1', '8.2']
+                php: [ '8.1', '8.2' ]
 
         steps:
-            - uses: actions/checkout@v2
+            -   uses: actions/checkout@v2
 
-            - name: Setup Database
-              uses: getong/mariadb-action@v1.1
-              with:
-                  host port: ${{ env.DATABASE_PORT }}
-                  container port: ${{ env.DATABASE_PORT }}
-                  character set server: ${{ env.DATABASE_CHARACTER_SET }}
-                  collation server: ${{ env.DATABASE_COLLATE }}
-                  mariadb version: ${{ env.DATABASE_VERSION }}
-                  mysql database: ${{ env.DATABASE_NAME }}
-                  mysql root password: ${{ env.DATABASE_ROOT_PASSWORD }}
-                  mysql user: ${{ env.DATABASE_USERNAME }}
-                  mysql password: ${{ env.DATABASE_PASSWORD }}
+            -   name: Setup Database
+                uses: getong/mariadb-action@v1.1
+                with:
+                    host port: ${{ env.DATABASE_PORT }}
+                    container port: ${{ env.DATABASE_PORT }}
+                    character set server: ${{ env.DATABASE_CHARACTER_SET }}
+                    collation server: ${{ env.DATABASE_COLLATE }}
+                    mariadb version: ${{ env.DATABASE_VERSION }}
+                    mysql database: ${{ env.DATABASE_NAME }}
+                    mysql root password: ${{ env.DATABASE_ROOT_PASSWORD }}
+                    mysql user: ${{ env.DATABASE_USERNAME }}
+                    mysql password: ${{ env.DATABASE_PASSWORD }}
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: mbstring, intl, bcmath
-                  tools: composer:v2
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: mbstring, intl, bcmath
+                    tools: composer:v2
 
-            - name: Configure sysctl limits
-              run: |
-                  sudo swapoff -a
-                  sudo sysctl -w vm.swappiness=1
-                  sudo sysctl -w fs.file-max=262144
-                  sudo sysctl -w vm.max_map_count=262144
+            -   name: Configure sysctl limits
+                run: |
+                    sudo swapoff -a
+                    sudo sysctl -w vm.swappiness=1
+                    sudo sysctl -w fs.file-max=262144
+                    sudo sysctl -w vm.max_map_count=262144
 
-            - name: Composer get cache directory
-              id: composer-cache
-              run: |
-                  echo "::set-output name=dir::$(composer config cache-files-dir)"
+            -   name: Composer get cache directory
+                id: composer-cache
+                run: |
+                    echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-            - name: Composer cache
-              uses: actions/cache@v2
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
+            -   name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-composer-
 
-            - name: Composer validate
-              run: composer validate
+            -   name: Composer validate
+                run: composer validate
 
-            - name: Composer install
-              run: |
-                  composer --version
-                  composer install
+            -   name: Composer install
+                run: |
+                    composer --version
+                    composer install
 
-            - name: Run CodeStyle checks
-              run: composer cs-check
+            -   name: Run CodeStyle checks
+                run: composer cs-check
 
-            - name: Run PHPStan
-              run: composer stan
+            -   name: Run PHPStan
+                run: composer stan
 
     lowest:
         name: Prefer Lowest
         runs-on: ubuntu-20.04
 
         steps:
-            - name: Checkout@v2
-              uses: actions/checkout@v2
+            -   name: Checkout@v2
+                uses: actions/checkout@v2
 
-            - name: Validate composer.json and composer.lock
-              run: composer validate
+            -   name: Validate composer.json and composer.lock
+                run: composer validate
 
-            - name: Composer get cache directory
-              id: composer-cache
-              run: |
-                  echo "::set-output name=dir::$(composer config cache-files-dir)"
+            -   name: Composer get cache directory
+                id: composer-cache
+                run: |
+                    echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-            - name: Composer cache
-              uses: actions/cache@v2
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
+            -   name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-composer-
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.1'
-                  extensions: mbstring, intl, bcmath
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    extensions: mbstring, intl, bcmath
 
-            - name: Composer prefer lowest
-              run: composer lowest-setup
+            -   name: Composer prefer lowest
+                run: composer lowest-setup
 
-            - name: Run PHPStan (currently not running properly)
-              run: composer stan || true
+            -   name: Run PHPStan
+                run: composer stan
 
-            - name: Validate prefer lowest
-              run: vendor/bin/validate-prefer-lowest -m
+            -   name: Validate prefer lowest
+                run: vendor/bin/validate-prefer-lowest -m

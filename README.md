@@ -1,6 +1,6 @@
 # OpenAi Module
 
-This module is a wrapper around openai-php/client library.
+OpenAi module provides integration with OpenAI API.
 
 ## Installation
 

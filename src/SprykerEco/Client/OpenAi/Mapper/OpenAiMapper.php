@@ -91,7 +91,7 @@ class OpenAiMapper implements OpenAiMapperInterface
      */
     public function mapResponseDataToResponseTransfer(array $responseData): OpenAiChatResponseTransfer
     {
-        $responseTransfer = new OpenAiChatResponseTransfer();
+        $responseTransfer = (new OpenAiChatResponseTransfer())->setIsSuccessful(true);
         if (!isset($responseData[static::OPENAI_RESPONSE_KEY_CHOICES][0])) {
             return $responseTransfer;
         }
@@ -99,5 +99,17 @@ class OpenAiMapper implements OpenAiMapperInterface
         $messageContent = $responseData[static::OPENAI_RESPONSE_KEY_CHOICES][0][static::OPENAI_RESPONSE_KEY_MESSAGE][static::OPENAI_RESPONSE_KEY_CONTENT] ?? null;
 
         return $responseTransfer->setMessage($messageContent);
+    }
+
+    /**
+     * @param string $errorMessage
+     *
+     * @return \Generated\Shared\Transfer\OpenAiChatResponseTransfer
+     */
+    public function mapErrorToResponseTransfer(string $errorMessage): OpenAiChatResponseTransfer
+    {
+        return (new OpenAiChatResponseTransfer())
+            ->setMessage($errorMessage)
+            ->setIsSuccessful(false);
     }
 }

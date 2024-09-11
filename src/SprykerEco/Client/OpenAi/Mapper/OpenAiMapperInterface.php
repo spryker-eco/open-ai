@@ -25,4 +25,11 @@ interface OpenAiMapperInterface
      * @return \Generated\Shared\Transfer\OpenAiChatResponseTransfer
      */
     public function mapResponseDataToResponseTransfer(array $responseData): OpenAiChatResponseTransfer;
+
+    /**
+     * @param string $errorMessage
+     *
+     * @return \Generated\Shared\Transfer\OpenAiChatResponseTransfer
+     */
+    public function mapErrorToResponseTransfer(string $errorMessage): OpenAiChatResponseTransfer;
 }

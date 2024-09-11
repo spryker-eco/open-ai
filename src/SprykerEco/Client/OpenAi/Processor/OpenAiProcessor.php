@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Client\OpenAi\Processor;
 
+use Exception;
 use Generated\Shared\Transfer\OpenAiChatRequestTransfer;
 use Generated\Shared\Transfer\OpenAiChatResponseTransfer;
 use SprykerEco\Client\OpenAi\Dependency\External\OpenAiToOpenAiPhpClientInterface;
@@ -52,11 +53,15 @@ class OpenAiProcessor implements OpenAiProcessorInterface
      */
     public function chat(OpenAiChatRequestTransfer $openAiRequestTransfer): OpenAiChatResponseTransfer
     {
-        $responseData = $this->openAiPhpClient
-            ->createOpenAiClient($this->openAiConfig->getOpenAiApiToken())
-            ->chat()
-            ->create($this->openAiMapper->mapRequestToPromptParameters($openAiRequestTransfer))
-            ->toArray();
+        try {
+            $responseData = $this->openAiPhpClient
+                ->createOpenAiClient($this->openAiConfig->getOpenAiApiToken())
+                ->chat()
+                ->create($this->openAiMapper->mapRequestToPromptParameters($openAiRequestTransfer))
+                ->toArray();
+        } catch (Exception $errorException) {
+            return $this->openAiMapper->mapErrorToResponseTransfer($errorException->getMessage());
+        }
 
         return $this->openAiMapper->mapResponseDataToResponseTransfer($responseData);
     }

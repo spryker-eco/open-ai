@@ -1,0 +1,40 @@
+{
+    "name": "spryker-eco/open-ai",
+    "type": "library",
+    "description": "OpenAi module",
+    "license": "MIT",
+    "require": {
+        "openai-php/client": "^0.8.4",
+        "php": ">=8.1",
+        "spryker/kernel": "^3.33.0",
+        "spryker/transfer": "^3.27.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*",
+        "spryker/code-sniffer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SprykerEco\\": "src/SprykerEco/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/",
+        "stan": "phpstan analyse -c phpstan.neon -l 8 src/"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": false
+        }
+    }
+}

@@ -4,7 +4,7 @@
     <transfer name="OpenAiChatRequest" strict="true">
         <property name="message" type="string"/>
         <property name="user" type="string"/>
-        <property name="promptData" type="array"/>
+        <property name="promptData" type="array" singular="promptData"/>
         <property name="model" type="string"/>
     </transfer>
 

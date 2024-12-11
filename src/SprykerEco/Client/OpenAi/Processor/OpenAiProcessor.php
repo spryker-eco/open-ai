@@ -39,7 +39,7 @@ class OpenAiProcessor implements OpenAiProcessorInterface
     public function __construct(
         OpenAiConfig $openAiConfig,
         OpenAiMapperInterface $openAiMapper,
-        OpenAiToOpenAiPhpClientInterface $openAiPhpClient,
+        OpenAiToOpenAiPhpClientInterface $openAiPhpClient
     ) {
         $this->openAiConfig = $openAiConfig;
         $this->openAiMapper = $openAiMapper;

@@ -2,10 +2,10 @@
     "name": "spryker-eco/open-ai",
     "type": "library",
     "description": "OpenAi module",
-    "license": "MIT",
+    "license": "proprietary",
     "require": {
         "openai-php/client": "^0.8.4",
-        "php": ">=8.1",
+        "php": ">=8.2",
         "spryker/kernel": "^3.33.0",
         "spryker/transfer": "^3.27.0"
     },
